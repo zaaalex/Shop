@@ -67,7 +67,7 @@ public class CakeController {
       return el.getId();
     }
 
-    @PostMapping(path = "add", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(path = "add", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public void create(@RequestBody Cake newCake) {
         Optional<Cake> maxId=cakeList.getCakeList().stream().max(Comparator.comparing(Cake::getId));
         newCake.setId(maxId.get().getId()+1);
