@@ -1,0 +1,63 @@
+openapi: 3.0.3
+info:
+  title: Title
+  description: Title
+  version: 1.0.0
+servers:
+  - url: 'http'
+paths:
+  /cake:
+    get:
+      description: return list of all available cakes
+      responses:
+        200:
+          description: server is ok
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#components/schemas/cakes'
+
+
+components:
+  schemas:
+    cakes:
+      additionalProperties: false
+      type: object
+      properties:
+        cake_list:
+          type: array
+          items:
+            $ref: '#/components/schemas/cake'
+
+    cake:
+      type: object
+      description: Short info about cakes
+      required:
+        - name
+        - calories
+        - image
+        - price
+        - weight
+        - id
+      properties:
+        id:
+          type: number
+          description: Id of cake
+        name:
+          type: string
+          description: Name of cake
+        calories:
+          type: number
+          description: calories of cake
+        image:
+          type: string
+          description: relative url of cake image
+        price:
+          type: number
+          description: Prise of cake
+        weight:
+          type: number
+          description: Cake weight
+
+  
