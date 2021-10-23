@@ -13,13 +13,16 @@ import org.springframework.web.bind.annotation.*;
 import java.math.BigDecimal;
 import java.rmi.ServerException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @Validated
 //@RequestMapping("v1/cakes")
 public class CakeController {
-    public Cakes cakeList = new Cakes();
+    private Cakes cakeList = new Cakes();
 
     public CakeController() {
         Cake cake1 = new Cake();
@@ -49,15 +52,31 @@ public class CakeController {
         return cakeList;
     }
 
-    @GetMapping(value="cake/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value="cake/{id}",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
     public Cake cake(@PathVariable Long id){
         return cakeList.getCakeList().stream()
                 .filter(c -> c.getId().equals(id))
                 .findFirst()
                 .orElseThrow(()->new CakeNotFoundException("No such cake"));
     }
+
+
+    static public Long compareTo(Cake el) {
+      return el.getId();
+    }
+
     @PostMapping(path = "add", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void create(@RequestBody Cake newCake) {
+        Optional<Cake> maxId=cakeList.getCakeList().stream().max(Comparator.comparing(Cake::getId));
+        newCake.setId(maxId.get().getId()+1);
 
+        List<Cake> tmp = new ArrayList<Cake>();
+        tmp = cakeList.getCakeList().stream()
+                        .distinct()
+                        .collect(Collectors.toList());
+        tmp.add(newCake);
+        cakeList.setCakeList(tmp);
     }
 }
