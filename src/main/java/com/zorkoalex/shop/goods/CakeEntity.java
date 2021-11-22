@@ -7,26 +7,37 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Objects;
 
-@Entity
+/*
+@Data — это всё равно, что иметь неявные
+@Getter, @Setter, @ToString, @EqualsAndHashCode и @RequiredArgsConstructor для класса
+(с исключением что никаких конструкторов не генерируется, если уже есть явно написанный конструктор).
+ */
+
+@Entity//описывает класс в базе данных
 @Getter
 @Setter
 @ToString
-@RequiredArgsConstructor
-@Table(catalog = "CAKE")
-class CakeEntity {
+@RequiredArgsConstructor //генерирует конструктор для каждого final or nonnull поля
+@Table(name = "CAKE")
+public class CakeEntity {
 
     @Setter(AccessLevel.NONE)
     private @Id @GeneratedValue (strategy = GenerationType.IDENTITY) Long id;
 
+    @Setter(AccessLevel.PROTECTED)
     @Column (name = "name")
     private String name;
 
+    @Setter(AccessLevel.PROTECTED)
     private BigDecimal calories;
 
+    @Setter(AccessLevel.PROTECTED)
     private String image;
 
+    @Setter(AccessLevel.PROTECTED)
     private BigDecimal prise;
 
+    @Setter(AccessLevel.PROTECTED)
     private BigDecimal weight;
 
     @Override
