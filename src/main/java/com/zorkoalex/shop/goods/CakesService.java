@@ -2,6 +2,7 @@ package com.zorkoalex.shop.goods;
 
 import com.zorkoalex.shop.dto.Cake;
 import com.zorkoalex.shop.dto.Cakes;
+import com.zorkoalex.shop.exception.CakeNotFoundException;
 
 import java.util.List;
 
@@ -10,5 +11,5 @@ public interface CakesService {
     Cakes getCakes();
     Cake getCake(Long id);
     void addCake(Cake cake);
-    void deleteCake (List<Long> id);
+    void deleteCake (List<Long> id) throws CakeNotFoundException;
 }

@@ -10,7 +10,7 @@ import javax.validation.constraints.Null;
 import java.math.BigDecimal;
 
 @Data
-@Schema(description = "Short info about cakes")
+@Schema(description = "Info about cakes")
 @Validated
 public class Cake {
     @Null

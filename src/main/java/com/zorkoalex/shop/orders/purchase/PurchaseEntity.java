@@ -1,8 +1,7 @@
-package com.zorkoalex.shop.orders;
+package com.zorkoalex.shop.orders.purchase;
 
-import com.zorkoalex.shop.dto.User;
 import com.zorkoalex.shop.goods.CakeEntity;
-import com.zorkoalex.shop.users.UserEntity;
+import com.zorkoalex.shop.orders.order.OrderEntity;
 import lombok.*;
 import org.hibernate.Hibernate;
 
@@ -22,20 +21,20 @@ public class PurchaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    @Setter(AccessLevel.PROTECTED)
+    @Setter(AccessLevel.PUBLIC)
     @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)
     private CakeEntity cake;
 
-    @Setter(AccessLevel.PROTECTED)
+    @Setter(AccessLevel.PUBLIC)
     @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)
     private OrderEntity order;
 
-    @Setter(AccessLevel.PROTECTED)
-    private Integer number;
+    @Setter(AccessLevel.PUBLIC)
+    private Integer count;
 
     @Override
     public boolean equals(Object o) {

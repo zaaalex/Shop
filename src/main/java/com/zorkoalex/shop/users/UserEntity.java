@@ -1,12 +1,11 @@
 package com.zorkoalex.shop.users;
 
-import com.zorkoalex.shop.orders.OrderEntity;
+import com.zorkoalex.shop.orders.order.OrderEntity;
 import lombok.*;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -16,20 +15,11 @@ import java.util.Objects;
 @Setter
 @ToString
 @RequiredArgsConstructor
-@Table(name = "USER")
+@Table(name = "USERINFO")
 public class UserEntity {
 
     @Setter(AccessLevel.NONE)
-    @ToString.Exclude
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.DETACH, orphanRemoval = false)
-    //cascade - что произойдет, если удалится строка пользователя
-    //orphanRemoval - можно ли удалить заказ внутри usera
-    private List<OrderEntity> order;
-
-    @Setter(AccessLevel.NONE)
-    private @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private @Id @GeneratedValue(strategy = GenerationType.IDENTITY) Long id;
 
     @Setter(AccessLevel.PROTECTED)
     @Column (name = "name")
@@ -38,11 +28,13 @@ public class UserEntity {
     @Setter(AccessLevel.PROTECTED)
     @Column (name = "number",nullable = false, unique = true)
     @NaturalId(mutable = true) //разрешает изменение
-    private Integer number;
+    private String number;
 
     @Setter(AccessLevel.NONE)
     @ToString.Exclude
-    @OneToMany(mappedBy = "user",fetch = FetchType.LAZY, cascade = CascadeType.DETACH, orphanRemoval = false)
+    @OneToMany(mappedBy = "user",fetch = FetchType.LAZY, orphanRemoval = false)
+    //cascade - что произойдет, если удалится строка пользователя cascade = CascadeType.DETACH
+    //orphanRemoval - можно ли удалить заказ внутри usera
     private List<OrderEntity> orders = new ArrayList<>();
 
     @Override

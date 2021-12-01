@@ -6,17 +6,14 @@ import lombok.Data;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Data
 @Schema
 @Validated
-public class Message {
+public class Orders {
     @NotNull
-    @Schema(description = "message", required = true)
-    @JsonProperty("message")
-    String message;
-
-    public Message (String message){
-        this.message=message;
-    }
+    @Schema(description = "order_list", required = true)
+    @JsonProperty("order_list")
+    private List<Order> orderList;
 }

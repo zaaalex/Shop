@@ -6,17 +6,11 @@ import lombok.Data;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
 
 @Data
-@Schema(description = "Info about purchase")
+@Schema(description = "Info about user")
 @Validated
 public class User {
-    @Null
-    @Schema(description = "id", required = false)
-    @JsonProperty("id")
-    private Long id;
-
     @NotNull
     @Schema(description = "name", required = true)
     @JsonProperty("name")
@@ -25,5 +19,5 @@ public class User {
     @NotNull
     @Schema(description = "number", required = true)
     @JsonProperty("number")
-    private Integer number;
+    private String number;
 }

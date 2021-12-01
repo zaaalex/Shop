@@ -1,5 +1,9 @@
-package com.zorkoalex.shop.orders;
+package com.zorkoalex.shop.orders.order;
 
+import com.zorkoalex.shop.orders.Delivery;
+import com.zorkoalex.shop.orders.OrderStatus;
+import com.zorkoalex.shop.orders.Payment;
+import com.zorkoalex.shop.orders.purchase.PurchaseEntity;
 import com.zorkoalex.shop.users.UserEntity;
 import lombok.*;
 import org.hibernate.Hibernate;
@@ -14,7 +18,7 @@ import java.util.Objects;
 @Setter
 @ToString
 @RequiredArgsConstructor
-@Table(name = "ORDER")
+@Table(name = "ORDERINFO")
 public class OrderEntity {
 
     @Setter(AccessLevel.NONE)

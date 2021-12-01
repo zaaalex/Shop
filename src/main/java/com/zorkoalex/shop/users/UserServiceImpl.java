@@ -1,6 +1,5 @@
 package com.zorkoalex.shop.users;
 
-import com.zorkoalex.shop.dto.Purchase;
 import com.zorkoalex.shop.dto.User;
 import com.zorkoalex.shop.exception.UserExistException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,18 +13,13 @@ public class UserServiceImpl implements UserService{
     public UserServiceImpl (UserRepository userRepository) {this.userRepository=userRepository;}
 
     @Override
-    public void addUser(UserEntity user) throws UserExistException {
-        if (userRepository.existsByNumber(user.getNumber())){
-          throw new UserExistException("");
+    public void addUser(User user) throws UserExistException {
+        if(userRepository.existsByNumber(user.getNumber())) {
+            throw new UserExistException("");
         }
         UserEntity userEntity = new UserEntity();
         userEntity.setName(user.getName());
         userEntity.setNumber(user.getNumber());
         userRepository.saveAndFlush(userEntity);
-    }
-
-    @Override
-    public Long getUserId (Integer number){
-        return userRepository.findUserEntityByNumber(number).getId();
     }
 }

@@ -1,4 +1,4 @@
-package com.zorkoalex.shop.orders;
+package com.zorkoalex.shop.orders.purchase;
 
 import com.zorkoalex.shop.dto.Cake;
 import com.zorkoalex.shop.dto.Order;

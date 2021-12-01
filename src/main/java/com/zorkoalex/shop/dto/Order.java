@@ -18,10 +18,10 @@ import java.util.List;
 @Schema(description = "Order")
 @Validated
 public class Order {
-    @Null
+    @NotNull
     @Schema(description = "user info", required = true)
     @JsonProperty("user")
-    private UserEntity user;
+    private User user;
 
     @NotNull
     @Schema(description = "do you need delivery?", required = true)

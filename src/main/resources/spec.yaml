@@ -6,7 +6,7 @@ info:
 servers:
   - url: 'http'
 paths:
-  /cake:
+  /cakes:
     get:
       description: return list of all available cakes
       responses:
@@ -17,6 +17,52 @@ paths:
               schema:
                 oneOf:
                   - $ref: '#components/schemas/cakes'
+
+  /cake/{id}:
+    get:
+      description: return cake with id
+      responses:
+        200:
+          description: is ok
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/cake'
+        404:
+          description: not found
+
+  /addCake:
+    post:
+      responses:
+        200:
+          description: is ok
+          content:
+            application/json:
+             schema:
+              $ref: '#components/schemas/cake'
+
+
+  /addorder:
+    post:
+      responses:
+        200:
+          description: is ok
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/order'
+
+  /adduser:
+    post:
+      responses:
+        200:
+          description: is ok
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/user'
+
+
 
 
 components:
@@ -59,5 +105,79 @@ components:
         weight:
           type: number
           description: Cake weight
+
+    user:
+      type: object
+      required:
+        - name
+        - number
+      properties:
+        number:
+          type: string
+          description: number
+        name:
+          type: string
+          description: name
+
+    purchase:
+      type: object
+      required:
+        - id
+        - number
+      properties:
+        number:
+          type: integer
+          description: id
+        name:
+          type: integer
+          description: number
+
+    order:
+      type: object
+      required:
+        - delivery
+        - deliverytime
+        - deliveryaddress
+        - orderstatus
+        - payment
+        - purhases
+        - user
+      properties:
+        user:
+          $ref: '#/components/schemas/user'
+        delivery:
+          type: string
+          description: do you need delivery
+          enum:
+            - NEED
+            - NO
+        deliveryaddress:
+          type: string
+          description: deliveryaddress
+        deliverytime:
+          type: string
+          description: deliverytime
+          format: date-time
+        payment:
+          type: string
+          description: payment status
+          enum:
+            - ONLINE
+            - OFFLINE
+        orderstatus:
+          type: string
+          description: orderstatus
+          enum:
+            - NEW
+            - CANCELED
+            - PERFORMED
+            - FINISHED
+        purhases:
+          type: array
+          description: purchases
+          items:
+            $ref: '#/components/schemas/purchase'
+
+
 
   

@@ -3,7 +3,6 @@ package com.zorkoalex.shop.goods;
 import com.zorkoalex.shop.dto.Cake;
 import com.zorkoalex.shop.dto.Cakes;
 import com.zorkoalex.shop.exception.CakeNotFoundException;
-import net.bytebuddy.implementation.bytecode.Throw;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,11 +37,11 @@ public class CakesServiceImpl implements CakesService {
     }
 
     @Override
-    public Cake getCake(Long id) {
+    public Cake getCake(Long id){
         CakeEntity cakeEntity = cakeRepository.findAll().stream()
                 .filter(c -> c.getId().equals(id))
                 .findFirst()
-                .orElseThrow(() -> new CakeNotFoundException("No such cake"));
+                .orElseThrow(() -> new CakeNotFoundException("No such cake with id "+id));
 
         Cake cake = new Cake();
         cake.setId(cakeEntity.getId());
@@ -67,9 +66,12 @@ public class CakesServiceImpl implements CakesService {
     }
 
     @Override
-    public void deleteCake(List <Long> id) {
+    public void deleteCake(List <Long> id) throws CakeNotFoundException{
        for (Long el: id){
-           if (cakeRepository.existsById(el)) cakeRepository.deleteById(el);
+           if(!cakeRepository.existsById(el)) {
+               throw new CakeNotFoundException("Cake with ID "+el+ " doesn't exist");
+           }
+           else cakeRepository.deleteById(el);
        }
     }
 }

@@ -1,10 +1,10 @@
 package com.zorkoalex.shop.rest.controller;
 
 import com.zorkoalex.shop.dto.*;
+import com.zorkoalex.shop.exception.CakeNotFoundException;
 import com.zorkoalex.shop.exception.UserExistException;
 import com.zorkoalex.shop.goods.CakesService;
-import com.zorkoalex.shop.orders.OrderService;
-import com.zorkoalex.shop.orders.PurchaseService;
+import com.zorkoalex.shop.orders.order.OrderService;
 import com.zorkoalex.shop.users.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,19 +21,20 @@ import java.util.List;
 public class Controller {
     private final CakesService cakesService;
     private final UserService userService;
-    private final PurchaseService purchaseService;
     private final OrderService orderService;
 
     @Autowired
-    public Controller(CakesService cakesService, UserService userService, PurchaseService purchaseService, OrderService orderService) {
+    public Controller(CakesService cakesService, UserService userService, OrderService orderService) {
         this.cakesService =cakesService;
         this.userService=userService;
-        this.purchaseService=purchaseService;
         this.orderService=orderService;
     }
 
     @GetMapping(value="cakes", produces = MediaType.APPLICATION_JSON_VALUE)
     public Cakes cakes(){return cakesService.getCakes();}
+
+    @GetMapping(value="orders", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Orders orders(){return orderService.getOrders();}
 
     @GetMapping(value="cake/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Cake cake(@PathVariable Long id){
@@ -41,14 +42,20 @@ public class Controller {
     }
 
     @PostMapping(value="deleteCake", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void deleteCake(@RequestBody @Valid List<Long> id){
-        cakesService.deleteCake(id);
+    public ResponseEntity<Cake> deleteCake(@RequestBody @Valid List<Long> id){
+        try {
+            cakesService.deleteCake(id);
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        }
+        catch (CakeNotFoundException exception){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
     }
 
+    @ResponseStatus(code=HttpStatus.CREATED)
     @PostMapping(path = "addCake", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Cake> createCake(@RequestBody @Valid Cake newCake){
+    public void createCake(@RequestBody @Valid Cake newCake){
         cakesService.addCake(newCake);
-        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @ResponseStatus(code=HttpStatus.CREATED)
@@ -60,5 +67,15 @@ public class Controller {
         catch (UserExistException ignored){
         }
         orderService.addOrder(newOrder);
+    }
+
+    @ResponseStatus(code=HttpStatus.CREATED)
+    @PostMapping(path = "addUser", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void createUser(@RequestBody @Valid User newUser){
+        try {
+            userService.addUser(newUser);
+        }
+        catch (UserExistException ignored){
+        }
     }
 }
