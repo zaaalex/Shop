@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Data
-@Schema
+@Schema(description = "Info about orders")
 @Validated
 public class Orders {
     @NotNull

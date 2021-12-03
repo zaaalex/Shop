@@ -4,13 +4,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.zorkoalex.shop.orders.Delivery;
 import com.zorkoalex.shop.orders.OrderStatus;
 import com.zorkoalex.shop.orders.Payment;
-import com.zorkoalex.shop.users.UserEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
 import java.time.LocalDateTime;
 import java.util.List;
 
