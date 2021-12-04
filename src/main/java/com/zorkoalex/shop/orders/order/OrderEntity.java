@@ -2,7 +2,7 @@ package com.zorkoalex.shop.orders.order;
 
 import com.zorkoalex.shop.orders.Delivery;
 import com.zorkoalex.shop.orders.OrderStatus;
-import com.zorkoalex.shop.orders.Payment;
+import com.zorkoalex.shop.orders.payment.PaymentEntity;
 import com.zorkoalex.shop.orders.purchase.PurchaseEntity;
 import com.zorkoalex.shop.users.UserEntity;
 import lombok.*;
@@ -28,6 +28,11 @@ public class OrderEntity {
 
     @Setter(AccessLevel.PROTECTED)
     @ToString.Exclude
+    @OneToOne(mappedBy = "order", fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL)
+    private PaymentEntity payment;
+
+    @Setter(AccessLevel.PROTECTED)
+    @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)
     private UserEntity user;
@@ -45,9 +50,6 @@ public class OrderEntity {
 
     @Setter(AccessLevel.PROTECTED)
     private LocalDateTime deliveryTime;
-
-    @Setter(AccessLevel.PROTECTED)
-    private Payment payment;
 
     @Setter(AccessLevel.PROTECTED)
     private OrderStatus orderStatus;

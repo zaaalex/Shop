@@ -2,6 +2,7 @@ package com.zorkoalex.shop.orders.order;
 
 import com.zorkoalex.shop.dto.*;
 import com.zorkoalex.shop.goods.CakeRepository;
+import com.zorkoalex.shop.orders.payment.PaymentEntity;
 import com.zorkoalex.shop.orders.purchase.PurchaseEntity;
 import com.zorkoalex.shop.users.UserEntity;
 import com.zorkoalex.shop.users.UserRepository;
@@ -30,7 +31,14 @@ public class OrderServiceImpl implements OrderService{
         orderEntity.setDelivery(order.getDelivery());
         orderEntity.setDeliveryAddress(order.getDeliveryAddress());
         orderEntity.setDeliveryTime(order.getDeliveryTime());
-        orderEntity.setPayment(order.getPayment());
+
+        PaymentEntity paymentEntity = new PaymentEntity();
+        paymentEntity.setPaymentDate(order.getPayment().getPaymentDate());
+        paymentEntity.setAmount(order.getPayment().getAmount());
+        paymentEntity.setStatus(order.getPayment().getStatus());
+        paymentEntity.setOrder(orderEntity);
+        orderEntity.setPayment(paymentEntity);
+
         orderEntity.setOrderStatus(order.getOrderStatus());
 
         orderEntity.setPurchases(order.getPurchases().stream()
@@ -56,13 +64,19 @@ public class OrderServiceImpl implements OrderService{
             User user = new User();
             user.setName(userEntity.getName());
             user.setNumber(userEntity.getNumber());
-
             order.setUser(user);
 
             order.setDelivery(c.getDelivery());
             order.setDeliveryAddress(c.getDeliveryAddress());
             order.setDeliveryTime(c.getDeliveryTime());
-            order.setPayment(c.getPayment());
+
+            PaymentEntity paymentEntity=c.getPayment();
+            Payment payment = new Payment();
+            payment.setPaymentDate(paymentEntity.getPaymentDate());
+            payment.setStatus(paymentEntity.getStatus());
+            payment.setAmount(paymentEntity.getAmount());
+            order.setPayment(payment);
+
             order.setOrderStatus(c.getOrderStatus());
 
             order.setPurchases(c.getPurchases().stream()

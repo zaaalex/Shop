@@ -3,7 +3,6 @@ package com.zorkoalex.shop.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.zorkoalex.shop.orders.Delivery;
 import com.zorkoalex.shop.orders.OrderStatus;
-import com.zorkoalex.shop.orders.Payment;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import org.springframework.validation.annotation.Validated;
@@ -22,6 +21,11 @@ public class Order {
     private User user;
 
     @NotNull
+    @Schema(description = "Payment", required = true)
+    @JsonProperty("payment")
+    private Payment payment;
+
+    @NotNull
     @Schema(description = "do you need delivery?", required = true)
     @JsonProperty("delivery")
     private Delivery delivery;
@@ -35,11 +39,6 @@ public class Order {
     @Schema(description = "Delivery time", required = true)
     @JsonProperty("deliveryTime")
     private LocalDateTime deliveryTime;
-
-    @NotNull
-    @Schema(description = "Payment status", required = true)
-    @JsonProperty("payment")
-    private Payment payment;
 
     @NotNull
     @Schema(description = "Order status", required = true)
