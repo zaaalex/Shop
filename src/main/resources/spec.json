@@ -1,0 +1,407 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "OpenAPI definition",
+    "version": "v0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080",
+      "description": "Generated server url"
+    }
+  ],
+  "paths": {
+    "/admin/deleteCake": {
+      "post": {
+        "tags": [
+          "admin-controller"
+        ],
+        "operationId": "deleteCake",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "format": "int64"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "404": {
+            "description": "Not Found"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Cake"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin/addCake": {
+      "post": {
+        "tags": [
+          "admin-controller"
+        ],
+        "operationId": "createCake",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Cake"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "404": {
+            "description": "Not Found"
+          },
+          "201": {
+            "description": "Created"
+          }
+        }
+      }
+    },
+    "/addUser": {
+      "post": {
+        "tags": [
+          "user-controller"
+        ],
+        "operationId": "createUser",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "404": {
+            "description": "Not Found"
+          },
+          "201": {
+            "description": "Created"
+          }
+        }
+      }
+    },
+    "/addOrder": {
+      "post": {
+        "tags": [
+          "user-controller"
+        ],
+        "operationId": "createOrder",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Order"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "404": {
+            "description": "Not Found"
+          },
+          "201": {
+            "description": "Created"
+          }
+        }
+      }
+    },
+    "/cakes": {
+      "get": {
+        "tags": [
+          "user-controller"
+        ],
+        "operationId": "cakes",
+        "responses": {
+          "404": {
+            "description": "Not Found"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Cakes"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cake/{id}": {
+      "get": {
+        "tags": [
+          "user-controller"
+        ],
+        "operationId": "cake",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Not Found"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Cake"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin/orders": {
+      "get": {
+        "tags": [
+          "admin-controller"
+        ],
+        "operationId": "orders",
+        "responses": {
+          "404": {
+            "description": "Not Found"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Orders"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Cake": {
+        "required": [
+          "calories",
+          "id",
+          "image",
+          "name",
+          "prise",
+          "weight"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Id",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name"
+          },
+          "calories": {
+            "type": "number",
+            "description": "Calories of cake"
+          },
+          "image": {
+            "type": "string",
+            "description": "Relative url of cake image"
+          },
+          "prise": {
+            "type": "number",
+            "description": "Prise of cake"
+          },
+          "weight": {
+            "type": "number",
+            "description": "Cake weight"
+          }
+        },
+        "description": "Info about cakes"
+      },
+      "User": {
+        "required": [
+          "name",
+          "number"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "name"
+          },
+          "number": {
+            "type": "string",
+            "description": "number"
+          }
+        },
+        "description": "Info about user"
+      },
+      "Order": {
+        "required": [
+          "delivery",
+          "deliveryAddress",
+          "deliveryTime",
+          "orderStatus",
+          "payment",
+          "purchases",
+          "user"
+        ],
+        "type": "object",
+        "properties": {
+          "user": {
+            "$ref": "#/components/schemas/User"
+          },
+          "payment": {
+            "$ref": "#/components/schemas/Payment"
+          },
+          "delivery": {
+            "type": "string",
+            "description": "do you need delivery?",
+            "enum": [
+              "NEED",
+              "WITHOUT"
+            ]
+          },
+          "deliveryAddress": {
+            "type": "string",
+            "description": "Delivery address"
+          },
+          "deliveryTime": {
+            "type": "string",
+            "description": "Delivery time",
+            "format": "date-time"
+          },
+          "orderStatus": {
+            "type": "string",
+            "description": "Order status",
+            "enum": [
+              "NEW",
+              "CANCELED",
+              "PERFORMED",
+              "FINISHED"
+            ]
+          },
+          "purchases": {
+            "type": "array",
+            "description": "purchases",
+            "items": {
+              "$ref": "#/components/schemas/Purchase"
+            }
+          }
+        },
+        "description": "Order"
+      },
+      "Payment": {
+        "required": [
+          "amount",
+          "paymentDate",
+          "status"
+        ],
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "number",
+            "description": "amount of payment",
+            "format": "double"
+          },
+          "paymentDate": {
+            "type": "string",
+            "description": "Delivery address",
+            "format": "date-time"
+          },
+          "status": {
+            "type": "string",
+            "description": "status",
+            "enum": [
+              "SCHEDULED",
+              "PAID"
+            ]
+          }
+        },
+        "description": "info about payment"
+      },
+      "Purchase": {
+        "required": [
+          "cakeId",
+          "count"
+        ],
+        "type": "object",
+        "properties": {
+          "cakeId": {
+            "type": "integer",
+            "description": "cakeId",
+            "format": "int64"
+          },
+          "count": {
+            "type": "integer",
+            "description": "count cake",
+            "format": "int32"
+          }
+        },
+        "description": "Info about purchase"
+      },
+      "Cakes": {
+        "required": [
+          "cake_list"
+        ],
+        "type": "object",
+        "properties": {
+          "cake_list": {
+            "type": "array",
+            "description": "cake_list",
+            "items": {
+              "$ref": "#/components/schemas/Cake"
+            }
+          }
+        },
+        "description": "Info about cakes"
+      },
+      "Orders": {
+        "required": [
+          "order_list"
+        ],
+        "type": "object",
+        "properties": {
+          "order_list": {
+            "type": "array",
+            "description": "order_list",
+            "items": {
+              "$ref": "#/components/schemas/Order"
+            }
+          }
+        },
+        "description": "Info about orders"
+      }
+    }
+  }
+}
