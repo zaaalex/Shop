@@ -7,19 +7,25 @@ import lombok.Data;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 import java.time.LocalDateTime;
 
 @Data
 @Schema (description = "info about payment")
 @Validated
 public class Payment {
-    @NotNull
+    @Null
+    @Schema(description = "id", required = true)
+    @JsonProperty("id")
+    private Long id;
+
+    @Null
     @Schema(description = "amount of payment", required = true)
     @JsonProperty("amount")
     private Double amount;
 
-    @NotNull
-    @Schema(description = "Delivery address", required = true)
+    @Null
+    @Schema(description = "paymentDate", required = true)
     @JsonProperty("paymentDate")
     private LocalDateTime paymentDate;
 

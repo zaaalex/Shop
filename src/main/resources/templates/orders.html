@@ -3,21 +3,23 @@
 <head>
   <title>Orders</title>
   <style>
-    .changeBlock{
-      position: absolute;
-      top: 100px;
-      left:50px;
-    }
-    .allBlock{
+    .orderBlock{
       position: absolute;
       font-size: large;
       top: 100px;
-      left: 300px;
+      left: 200px;
     }
-    .deleteBlock{
+    .paymentBlock{
       position: absolute;
-      top: 340px;
-      left: 50px;
+      font-size: large;
+      top: 100px;
+      left: 1250px;
+    }
+    .userBlock{
+      position: absolute;
+      font-size: large;
+      top: 100px;
+      left: 25px;
     }
   </style>
 </head>
@@ -26,29 +28,7 @@
 <div style="text-align: center; font-size: xxx-large">ORDERS</div>
 <div style="text-align: right"><a href="home">home</a></div>
 
-<div class="changeBlock">
-  <form th:name="add" th:action="@{/admin/changeOrder}" th:object="${order}" th:method="post">
-    <fieldset>
-      <p>ID:</p>
-      <p> <input type="text" th:field="*{id}"></input></p>
-    </fieldset>
-    <fieldset>
-      <p>Order status:</p>
-      <p>
-        <select>
-        <option>NEW</option>
-        <option>CANCELED</option>
-        <option selected>PERFORMED</option>
-        <option>FINISHED</option>
-      </select>
-    </fieldset>
-
-    <button style="height:20px;width:204px" type="submit">change</button>
-
-  </form>
-</div>
-
-<div class="allBlock">
+<div class="orderBlock">
 <table>
   <thead>
   <tr>
@@ -60,11 +40,13 @@
     <th>Address delivery</th>
     <th>Number client's</th>
     <th>Count</th>
+    <th></th>
+    <th></th>
   </tr>
   </thead>
   <tbody th:each="order : ${orders}">
   <tr>
-    <td th:text="${order.getId()}"></td>
+    <td th:name="order_id" th:text="${order.getId()}"></td>
     <td th:text="${order.getOrderStatus()}"></td>
     <td th:text="${order.getPayment().getStatus()}"></td>
     <td th:text="${order.getDelivery()}"></td>
@@ -87,29 +69,58 @@
         </tbody>
       </table>
     </td>
+    <td>
+      <form th:action="@{/admin/changeOrder/{id} (id=${order.getId()})}" th:object="${status}" th:method="post">
+        <input style="height:20px;width:100px" type="text"  th:field="*{orderStatus}"></input>
+        <button type="submit">update</button>
+      </form>
+    </td>
+    <td><form th:action="@{/admin/deleteOrder/{id} (id=${order.getId()})}" th:method="post">
+      <button type="submit">delete</button>
+    </form></td>
   </tr>
   </tbody>
 </table>
 </div>
 
-<div class="deleteBlock">
-  <form th:action="@{/admin/deleteOrder}" th:object="${order}" th:method="post">
+<div class="paymentBlock">
+  <div style="text-align: center; font-size: large">PAYMENTS</div>
     <table>
       <thead>
       <tr>
-        <th>ID</th>
-        <th></th>
+        <th>Order ID</th>
+        <th>PaymentStatus</th>
+        <th>Amount</th>
+        <th>Data payment</th>
       </tr>
       </thead>
-      <td>
-        <input style="height:20px;width:140px" type="number" th:field="*{id}"></input>
-      </td>
-      <td>
-        <button type="submit">delete</button>
-      </td>
+      <tbody th:each="order : ${orders}">
+      <tr>
+        <td th:text="${order.getId()}"></td>
+        <td th:text="${order.getPayment().getStatus()}"></td>
+        <td th:text="${order.getPayment().getAmount()}"></td>
+        <td th:text="${order.getPayment().getPaymentDate()}"></td>
       </tr>
+      </tbody>
     </table>
-  </form>
+</div>
+
+<div class="userBlock">
+  <div style="text-align: center; font-size: large">USERS</div>
+  <table>
+    <thead>
+    <tr>
+      <th>Number</th>
+      <th>Name</th>
+    </tr>
+    </thead>
+    <tbody th:each="order : ${orders}">
+    <tr>
+      <td th:text="${order.getUser().getNumber()}"></td>
+      <td th:text="${order.getUser().getName()}"></td>
+    </tr>
+    </tbody>
+  </table>
 </div>
 
 </body>

@@ -1,23 +1,12 @@
 package com.zorkoalex.shop.rest.controller;
 
-import com.zorkoalex.shop.dto.Cake;
-import com.zorkoalex.shop.dto.Cakes;
-import com.zorkoalex.shop.dto.Order;
-import com.zorkoalex.shop.dto.Orders;
-import com.zorkoalex.shop.exception.CakeNotFoundException;
+import com.zorkoalex.shop.dto.*;
 import com.zorkoalex.shop.goods.CakesService;
 import com.zorkoalex.shop.orders.order.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
-import java.util.List;
 
 @Controller
 @RequestMapping("/admin")
@@ -55,15 +44,15 @@ public class AdminController {
         return "redirect:/admin/cakes";
     }
 
-    @PostMapping(value = "changeOrder")
-    public String changeOrder(Order order){
-        orderService.changeOrder(order);
+    @PostMapping(value = "changeOrder/{id}")
+    public String changeOrder(@PathVariable Long id, Order order){
+        orderService.changeOrder(id, order.getOrderStatus());
         return "redirect:/admin/orders";
     }
 
-    @PostMapping(value = "deleteOrder")
-    public String deleteOrder(Order order){
-        orderService.deleteOrder(order.getId());
+    @PostMapping(value = "deleteOrder/{id}")
+    public String deleteOrder(@PathVariable Long id){
+        orderService.deleteOrder(id);
         return "redirect:/admin/orders";
     }
 
@@ -71,6 +60,7 @@ public class AdminController {
     public String orders(Model model){
         model.addAttribute("orders", orderService.getOrders().getOrderList());
         model.addAttribute("order", new Order());
+        model.addAttribute("status", new Order());
         return "orders";
     }
 }

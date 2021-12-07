@@ -2,7 +2,9 @@ package com.zorkoalex.shop.orders.order;
 
 import com.zorkoalex.shop.dto.*;
 import com.zorkoalex.shop.exception.OrderNotFoundException;
+import com.zorkoalex.shop.goods.CakeEntity;
 import com.zorkoalex.shop.goods.CakeRepository;
+import com.zorkoalex.shop.orders.OrderStatus;
 import com.zorkoalex.shop.orders.payment.PaymentEntity;
 import com.zorkoalex.shop.orders.purchase.PurchaseEntity;
 import com.zorkoalex.shop.users.UserEntity;
@@ -11,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 @Service
@@ -72,14 +75,6 @@ public class OrderServiceImpl implements OrderService{
             order.setDelivery(c.getDelivery());
             order.setDeliveryAddress(c.getDeliveryAddress());
             order.setDeliveryTime(c.getDeliveryTime());
-
-            PaymentEntity paymentEntity=c.getPayment();
-            Payment payment = new Payment();
-            payment.setPaymentDate(paymentEntity.getPaymentDate());
-            payment.setStatus(paymentEntity.getStatus());
-            payment.setAmount(paymentEntity.getAmount());
-            order.setPayment(payment);
-
             order.setOrderStatus(c.getOrderStatus());
 
             order.setPurchases(c.getPurchases().stream()
@@ -90,6 +85,17 @@ public class OrderServiceImpl implements OrderService{
                         return purchase;
                     }).collect(Collectors.toList()));
 
+            Double amount=0.0;
+            for (Purchase el: order.getPurchases()){
+                amount+=el.getCount()*cakeRepository.findCakeEntityById(el.getCakeId()).getPrise();
+            }
+
+            PaymentEntity paymentEntity=c.getPayment();
+            Payment payment = new Payment();
+            payment.setPaymentDate(paymentEntity.getPaymentDate());
+            payment.setStatus(paymentEntity.getStatus());
+            payment.setAmount(amount);
+            order.setPayment(payment);
 
             return order;
         }).collect(Collectors.toList());
@@ -99,11 +105,15 @@ public class OrderServiceImpl implements OrderService{
     }
 
     @Override
-    public void changeOrder(Order order) throws OrderNotFoundException {
-        if(!orderRepository.existsById(order.getId())) {
-            throw new OrderNotFoundException("Order with ID "+order.getId()+ " doesn't exist");
+    public void changeOrder(Long id, OrderStatus orderStatus) throws OrderNotFoundException {
+        if(!orderRepository.existsById(id)) {
+            throw new OrderNotFoundException("Order with ID "+id+ " doesn't exist");
         }
-        else  {}
+        else  {
+            OrderEntity orderEntity = orderRepository.getById(id);
+            orderEntity.setOrderStatus(orderStatus);
+            orderRepository.saveAndFlush(orderEntity);
+        }
     }
 
     @Override

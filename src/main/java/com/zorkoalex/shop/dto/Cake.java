@@ -36,7 +36,7 @@ public class Cake {
     @NotNull
     @Schema(description = "Prise of cake", required = true)
     @JsonProperty("prise")
-    private BigDecimal prise;
+    private Integer prise;
 
     @NotNull
     @Schema(description = "Cake weight", required = true)
