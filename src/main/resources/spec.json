@@ -11,69 +11,6 @@
     }
   ],
   "paths": {
-    "/admin/deleteCake": {
-      "post": {
-        "tags": [
-          "admin-controller"
-        ],
-        "operationId": "deleteCake",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "array",
-                "items": {
-                  "type": "integer",
-                  "format": "int64"
-                }
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "404": {
-            "description": "Not Found"
-          },
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Cake"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/admin/addCake": {
-      "post": {
-        "tags": [
-          "admin-controller"
-        ],
-        "operationId": "createCake",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Cake"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "404": {
-            "description": "Not Found"
-          },
-          "201": {
-            "description": "Created"
-          }
-        }
-      }
-    },
     "/addUser": {
       "post": {
         "tags": [
@@ -182,72 +119,10 @@
           }
         }
       }
-    },
-    "/admin/orders": {
-      "get": {
-        "tags": [
-          "admin-controller"
-        ],
-        "operationId": "orders",
-        "responses": {
-          "404": {
-            "description": "Not Found"
-          },
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Orders"
-                }
-              }
-            }
-          }
-        }
-      }
     }
   },
   "components": {
     "schemas": {
-      "Cake": {
-        "required": [
-          "calories",
-          "id",
-          "image",
-          "name",
-          "prise",
-          "weight"
-        ],
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "description": "Id",
-            "format": "int64"
-          },
-          "name": {
-            "type": "string",
-            "description": "Name"
-          },
-          "calories": {
-            "type": "number",
-            "description": "Calories of cake"
-          },
-          "image": {
-            "type": "string",
-            "description": "Relative url of cake image"
-          },
-          "prise": {
-            "type": "number",
-            "description": "Prise of cake"
-          },
-          "weight": {
-            "type": "number",
-            "description": "Cake weight"
-          }
-        },
-        "description": "Info about cakes"
-      },
       "User": {
         "required": [
           "name",
@@ -271,6 +146,7 @@
           "delivery",
           "deliveryAddress",
           "deliveryTime",
+          "id",
           "orderStatus",
           "payment",
           "purchases",
@@ -278,6 +154,11 @@
         ],
         "type": "object",
         "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Id",
+            "format": "int64"
+          },
           "user": {
             "$ref": "#/components/schemas/User"
           },
@@ -370,6 +251,45 @@
         },
         "description": "Info about purchase"
       },
+      "Cake": {
+        "required": [
+          "calories",
+          "id",
+          "image",
+          "name",
+          "prise",
+          "weight"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Id",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name"
+          },
+          "calories": {
+            "type": "number",
+            "description": "Calories of cake"
+          },
+          "image": {
+            "type": "string",
+            "description": "Relative url of cake image"
+          },
+          "prise": {
+            "type": "number",
+            "description": "Prise of cake"
+          },
+          "weight": {
+            "type": "number",
+            "description": "Cake weight"
+          }
+        },
+        "description": "Info about cakes"
+      },
       "Cakes": {
         "required": [
           "cake_list"
@@ -385,22 +305,6 @@
           }
         },
         "description": "Info about cakes"
-      },
-      "Orders": {
-        "required": [
-          "order_list"
-        ],
-        "type": "object",
-        "properties": {
-          "order_list": {
-            "type": "array",
-            "description": "order_list",
-            "items": {
-              "$ref": "#/components/schemas/Order"
-            }
-          }
-        },
-        "description": "Info about orders"
       }
     }
   }

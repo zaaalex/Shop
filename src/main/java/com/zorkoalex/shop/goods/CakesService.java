@@ -11,5 +11,5 @@ public interface CakesService {
     Cakes getCakes();
     Cake getCake(Long id);
     void addCake(Cake cake);
-    void deleteCake (List<Long> id) throws CakeNotFoundException;
+    void deleteCake (Long id) throws CakeNotFoundException;
 }

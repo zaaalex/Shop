@@ -1,6 +1,7 @@
 package com.zorkoalex.shop.orders.order;
 
 import com.zorkoalex.shop.dto.*;
+import com.zorkoalex.shop.exception.OrderNotFoundException;
 import com.zorkoalex.shop.goods.CakeRepository;
 import com.zorkoalex.shop.orders.payment.PaymentEntity;
 import com.zorkoalex.shop.orders.purchase.PurchaseEntity;
@@ -28,6 +29,7 @@ public class OrderServiceImpl implements OrderService{
     @Override
     public void addOrder(Order order) {
         OrderEntity orderEntity = new OrderEntity();
+
         orderEntity.setDelivery(order.getDelivery());
         orderEntity.setDeliveryAddress(order.getDeliveryAddress());
         orderEntity.setDeliveryTime(order.getDeliveryTime());
@@ -59,6 +61,7 @@ public class OrderServiceImpl implements OrderService{
         List<OrderEntity> orderEntityList = orderRepository.findAll();
         List<Order> orderList = orderEntityList.stream().map(c -> {
             Order order = new Order();
+            order.setId(c.getId());
 
             UserEntity userEntity = c.getUser();
             User user = new User();
@@ -93,5 +96,21 @@ public class OrderServiceImpl implements OrderService{
         Orders orders = new Orders();
         orders.setOrderList(orderList);
         return orders;
+    }
+
+    @Override
+    public void changeOrder(Order order) throws OrderNotFoundException {
+        if(!orderRepository.existsById(order.getId())) {
+            throw new OrderNotFoundException("Order with ID "+order.getId()+ " doesn't exist");
+        }
+        else  {}
+    }
+
+    @Override
+    public void deleteOrder(Long el) throws OrderNotFoundException {
+        if(!orderRepository.existsById(el)) {
+            throw new OrderNotFoundException("Order with ID "+el+ " doesn't exist");
+        }
+        else orderRepository.deleteById(el);
     }
 }

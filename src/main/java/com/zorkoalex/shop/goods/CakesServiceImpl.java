@@ -66,12 +66,10 @@ public class CakesServiceImpl implements CakesService {
     }
 
     @Override
-    public void deleteCake(List <Long> id) throws CakeNotFoundException{
-       for (Long el: id){
-           if(!cakeRepository.existsById(el)) {
-               throw new CakeNotFoundException("Cake with ID "+el+ " doesn't exist");
-           }
-           else cakeRepository.deleteById(el);
-       }
+    public void deleteCake(Long el) throws CakeNotFoundException{
+        if(!cakeRepository.existsById(el)) {
+            throw new CakeNotFoundException("Cake with ID "+el+ " doesn't exist");
+        }
+        else cakeRepository.deleteById(el);
     }
 }

@@ -1,0 +1,116 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <title>Orders</title>
+  <style>
+    .changeBlock{
+      position: absolute;
+      top: 100px;
+      left:50px;
+    }
+    .allBlock{
+      position: absolute;
+      font-size: large;
+      top: 100px;
+      left: 300px;
+    }
+    .deleteBlock{
+      position: absolute;
+      top: 340px;
+      left: 50px;
+    }
+  </style>
+</head>
+
+<body>
+<div style="text-align: center; font-size: xxx-large">ORDERS</div>
+<div style="text-align: right"><a href="home">home</a></div>
+
+<div class="changeBlock">
+  <form th:name="add" th:action="@{/admin/changeOrder}" th:object="${order}" th:method="post">
+    <fieldset>
+      <p>ID:</p>
+      <p> <input type="text" th:field="*{id}"></input></p>
+    </fieldset>
+    <fieldset>
+      <p>Order status:</p>
+      <p>
+        <select>
+        <option>NEW</option>
+        <option>CANCELED</option>
+        <option selected>PERFORMED</option>
+        <option>FINISHED</option>
+      </select>
+    </fieldset>
+
+    <button style="height:20px;width:204px" type="submit">change</button>
+
+  </form>
+</div>
+
+<div class="allBlock">
+<table>
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>OrderStatus</th>
+    <th>PaymentStatus</th>
+    <th>Delivery</th>
+    <th>Data delivery</th>
+    <th>Address delivery</th>
+    <th>Number client's</th>
+    <th>Count</th>
+  </tr>
+  </thead>
+  <tbody th:each="order : ${orders}">
+  <tr>
+    <td th:text="${order.getId()}"></td>
+    <td th:text="${order.getOrderStatus()}"></td>
+    <td th:text="${order.getPayment().getStatus()}"></td>
+    <td th:text="${order.getDelivery()}"></td>
+    <td th:text="${order.getDeliveryTime().toString()}"></td>
+    <td th:text="${order.getDeliveryAddress()}"></td>
+    <td th:text="${order.getUser().getNumber()}"></td>
+    <td>
+      <table>
+        <thead>
+        <tr>
+          <th>CakeID</th>
+          <th>Count</th>
+        </tr>
+        </thead>
+        <tbody th:each="purchase : ${order.getPurchases()}">
+        <tr>
+          <td th:text="${purchase.getCakeId()}"></td>
+          <td th:text="${purchase.getCount()}"></td>
+        </tr>
+        </tbody>
+      </table>
+    </td>
+  </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="deleteBlock">
+  <form th:action="@{/admin/deleteOrder}" th:object="${order}" th:method="post">
+    <table>
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th></th>
+      </tr>
+      </thead>
+      <td>
+        <input style="height:20px;width:140px" type="number" th:field="*{id}"></input>
+      </td>
+      <td>
+        <button type="submit">delete</button>
+      </td>
+      </tr>
+    </table>
+  </form>
+</div>
+
+</body>
+</html>

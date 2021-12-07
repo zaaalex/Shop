@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Cakes</title>
+    <style>
+        .addBlock{
+            position: absolute;
+            top: 100px;
+            left:50px;
+        }
+        .allBlock{
+            position: absolute;
+            font-size: large;
+            top: 100px;
+            left: 300px;
+        }
+        .deleteBlock{
+            position: absolute;
+            top: 650px;
+            left: 50px;
+        }
+    </style>
+</head>
+
+<body>
+<div style="text-align: center; font-size: xxx-large">CAKES</div>
+<div style="text-align: right"><a href="home">home</a></div>
+<div class="addBlock">
+    <form th:name="add" th:action="@{/admin/addCake}" th:object="${cake}" th:method="post">
+        <fieldset>
+            <p>Name:</p>
+            <p> <input type="text" th:field="*{name}"></input></p>
+        </fieldset>
+        <fieldset>
+            <p>Calories:</p>
+            <p> <input type="number" step="100" th:field="*{calories}"></input></p>
+        </fieldset>
+        <fieldset>
+            <p>Prise:</p>
+            <p> <input type="number" step="100" th:field="*{prise}"></input></p>
+        </fieldset>
+        <fieldset>
+            <p>Weight:</p>
+            <p> <input type="number" step="100" th:field="*{weight}"></input></p>
+        </fieldset>
+        <fieldset>
+            <p>Image:</p>
+            <p> <input type="text" th:field="*{image}"></input></p>
+        </fieldset>
+
+        <button style="height:20px;width:205px" type="submit">add</button>
+
+    </form>
+</div>
+
+<div class="allBlock">
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Calories</th>
+            <th>Prise</th>
+            <th>Weight</th>
+            <th>Image</th>
+        </tr>
+        </thead>
+        <tbody th:each="cake, iStat : ${cakes}">
+        <tr>
+            <td th:text="${cake.getId()}"></td>
+            <td th:text="${cake.getName()}"></td>
+            <td th:text="${cake.getCalories()}"></td>
+            <td th:text="${cake.getPrise()}"></td>
+            <td th:text="${cake.getWeight()}"></td>
+            <td th:text="${cake.getImage()}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <br/>
+    <br/>
+</div>
+<div class="deleteBlock">
+    <form th:action="@{/admin/deleteCake}" th:object="${cake}" th:method="post">
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th></th>
+            </tr>
+            </thead>
+            <td>
+                <input style="height:15px;width:137px" type="number" th:field="*{id}"></input>
+            </td>
+            <td>
+                <button type="submit">delete</button>
+            </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+</body>
+</html>

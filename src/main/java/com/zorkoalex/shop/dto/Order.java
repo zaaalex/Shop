@@ -8,6 +8,7 @@ import lombok.Data;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -15,6 +16,11 @@ import java.util.List;
 @Schema(description = "Order")
 @Validated
 public class Order {
+    @Null
+    @Schema(description = "Id", required = true)
+    @JsonProperty("id")
+    private Long id;
+
     @NotNull
     @Schema(description = "user info", required = true)
     @JsonProperty("user")
