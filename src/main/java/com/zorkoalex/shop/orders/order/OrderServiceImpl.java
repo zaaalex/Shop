@@ -1,8 +1,11 @@
 package com.zorkoalex.shop.orders.order;
 
 import com.zorkoalex.shop.dto.*;
+import com.zorkoalex.shop.dto.order.Order;
+import com.zorkoalex.shop.dto.order.Orders;
+import com.zorkoalex.shop.dto.order.Payment;
+import com.zorkoalex.shop.dto.order.Purchase;
 import com.zorkoalex.shop.exception.OrderNotFoundException;
-import com.zorkoalex.shop.goods.CakeEntity;
 import com.zorkoalex.shop.goods.CakeRepository;
 import com.zorkoalex.shop.orders.OrderStatus;
 import com.zorkoalex.shop.orders.payment.PaymentEntity;
@@ -13,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 @Service

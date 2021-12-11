@@ -1,7 +1,7 @@
 package com.zorkoalex.shop.goods;
 
-import com.zorkoalex.shop.dto.Cake;
-import com.zorkoalex.shop.dto.Cakes;
+import com.zorkoalex.shop.dto.cake.Cake;
+import com.zorkoalex.shop.dto.cake.Cakes;
 import com.zorkoalex.shop.exception.CakeNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

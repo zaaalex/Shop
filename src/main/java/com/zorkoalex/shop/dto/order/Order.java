@@ -1,6 +1,7 @@
-package com.zorkoalex.shop.dto;
+package com.zorkoalex.shop.dto.order;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.zorkoalex.shop.dto.User;
 import com.zorkoalex.shop.orders.Delivery;
 import com.zorkoalex.shop.orders.OrderStatus;
 import io.swagger.v3.oas.annotations.media.Schema;

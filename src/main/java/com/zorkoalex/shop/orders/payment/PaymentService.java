@@ -1,6 +1,5 @@
 package com.zorkoalex.shop.orders.payment;
 
-import com.zorkoalex.shop.dto.Payment;
 import com.zorkoalex.shop.orders.PaymentStatus;
 import com.zorkoalex.shop.orders.order.OrderEntity;
 

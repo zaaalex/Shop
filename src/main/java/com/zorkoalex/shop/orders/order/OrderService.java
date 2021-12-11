@@ -1,7 +1,7 @@
 package com.zorkoalex.shop.orders.order;
 
-import com.zorkoalex.shop.dto.Order;
-import com.zorkoalex.shop.dto.Orders;
+import com.zorkoalex.shop.dto.order.Order;
+import com.zorkoalex.shop.dto.order.Orders;
 import com.zorkoalex.shop.exception.OrderNotFoundException;
 import com.zorkoalex.shop.orders.OrderStatus;
 

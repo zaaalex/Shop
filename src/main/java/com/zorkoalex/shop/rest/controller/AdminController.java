@@ -1,6 +1,7 @@
 package com.zorkoalex.shop.rest.controller;
 
-import com.zorkoalex.shop.dto.*;
+import com.zorkoalex.shop.dto.cake.Cake;
+import com.zorkoalex.shop.dto.order.Order;
 import com.zorkoalex.shop.goods.CakesService;
 import com.zorkoalex.shop.orders.order.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package com.zorkoalex.shop.dto;
+package com.zorkoalex.shop.dto.cake;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -9,11 +9,11 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Data
-@Schema(description = "Info about orders")
+@Schema(description = "Info about cakes")
 @Validated
-public class Orders {
+public class Cakes {
     @NotNull
-    @Schema(description = "order_list", required = true)
-    @JsonProperty("order_list")
-    private List<Order> orderList;
+    @Schema(description = "cake_list", required = true)
+    @JsonProperty("cake_list")
+    private List<Cake> cakeList;
 }

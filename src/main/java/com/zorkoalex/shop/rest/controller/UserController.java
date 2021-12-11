@@ -1,6 +1,9 @@
 package com.zorkoalex.shop.rest.controller;
 
 import com.zorkoalex.shop.dto.*;
+import com.zorkoalex.shop.dto.cake.Cake;
+import com.zorkoalex.shop.dto.cake.Cakes;
+import com.zorkoalex.shop.dto.order.Order;
 import com.zorkoalex.shop.exception.UserExistException;
 import com.zorkoalex.shop.goods.CakesService;
 import com.zorkoalex.shop.orders.order.OrderService;
@@ -12,7 +15,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.security.Principal;
 
 @RestController
 @Validated
