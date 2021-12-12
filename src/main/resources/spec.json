@@ -6,7 +6,7 @@
   },
   "servers": [
     {
-      "url": "http://localhost:8080",
+      "url": "http://localhost",
       "description": "Generated server url"
     }
   ],
@@ -59,6 +59,62 @@
           },
           "201": {
             "description": "Created"
+          }
+        }
+      }
+    },
+    "/users": {
+      "get": {
+        "tags": [
+          "user-controller"
+        ],
+        "operationId": "users",
+        "responses": {
+          "404": {
+            "description": "Not Found"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Users"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/order/{id}": {
+      "get": {
+        "tags": [
+          "user-controller"
+        ],
+        "operationId": "orders",
+        "parameters": [
+          {
+            "name": "number",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Not Found"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Orders"
+                }
+              }
+            }
           }
         }
       }
@@ -179,8 +235,7 @@
           },
           "deliveryTime": {
             "type": "string",
-            "description": "Delivery time",
-            "format": "date-time"
+            "description": "Delivery time"
           },
           "orderStatus": {
             "type": "string",
@@ -205,20 +260,20 @@
       "Payment": {
         "required": [
           "amount",
-          "paymentDate",
+          "id",
           "status"
         ],
         "type": "object",
         "properties": {
+          "id": {
+            "type": "integer",
+            "description": "id",
+            "format": "int64"
+          },
           "amount": {
             "type": "number",
             "description": "amount of payment",
             "format": "double"
-          },
-          "paymentDate": {
-            "type": "string",
-            "description": "Delivery address",
-            "format": "date-time"
           },
           "status": {
             "type": "string",
@@ -251,6 +306,38 @@
         },
         "description": "Info about purchase"
       },
+      "Users": {
+        "required": [
+          "user_list"
+        ],
+        "type": "object",
+        "properties": {
+          "user_list": {
+            "type": "array",
+            "description": "user_list",
+            "items": {
+              "$ref": "#/components/schemas/User"
+            }
+          }
+        },
+        "description": "Info about users"
+      },
+      "Orders": {
+        "required": [
+          "order_list"
+        ],
+        "type": "object",
+        "properties": {
+          "order_list": {
+            "type": "array",
+            "description": "order_list",
+            "items": {
+              "$ref": "#/components/schemas/Order"
+            }
+          }
+        },
+        "description": "Info about orders"
+      },
       "Cake": {
         "required": [
           "calories",
@@ -280,8 +367,9 @@
             "description": "Relative url of cake image"
           },
           "prise": {
-            "type": "number",
-            "description": "Prise of cake"
+            "type": "integer",
+            "description": "Prise of cake",
+            "format": "int32"
           },
           "weight": {
             "type": "number",

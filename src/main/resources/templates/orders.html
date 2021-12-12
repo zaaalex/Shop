@@ -1,34 +1,23 @@
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
   <title>Orders</title>
   <style>
-    .orderBlock{
+    .container{
       position: absolute;
       font-size: large;
-      top: 100px;
-      left: 200px;
-    }
-    .paymentBlock{
-      position: absolute;
-      font-size: large;
-      top: 100px;
-      left: 1250px;
-    }
-    .userBlock{
-      position: absolute;
-      font-size: large;
-      top: 100px;
-      left: 25px;
+      left: 50px;
     }
   </style>
 </head>
 
 <body>
-<div style="text-align: center; font-size: xxx-large">ORDERS</div>
-<div style="text-align: right"><a href="home">home</a></div>
+<div class="container">
+  <div style="text-align: center; font-size: xxx-large">ORDERS</div>
+  <div style="text-align: right"><a href="home">home</a></div>
 
-<div class="orderBlock">
 <table>
   <thead>
   <tr>
@@ -39,9 +28,11 @@
     <th>Data delivery</th>
     <th>Address delivery</th>
     <th>Number client's</th>
-    <th>Count</th>
+    <th>Amount</th>
+    <th>(updateStatus)</th>
     <th></th>
-    <th></th>
+    <th>(cakeId, count)</th>
+    <th>(cakeId)</th>
   </tr>
   </thead>
   <tbody th:each="order : ${orders}">
@@ -50,15 +41,15 @@
     <td th:text="${order.getOrderStatus()}"></td>
     <td th:text="${order.getPayment().getStatus()}"></td>
     <td th:text="${order.getDelivery()}"></td>
-    <td th:text="${order.getDeliveryTime().toString()}"></td>
+    <td th:text="${order.getDeliveryTime()}"></td>
     <td th:text="${order.getDeliveryAddress()}"></td>
     <td th:text="${order.getUser().getNumber()}"></td>
     <td>
       <table>
         <thead>
         <tr>
-          <th>CakeID</th>
-          <th>Count</th>
+          <th>cakeId</th>
+          <th>count</th>
         </tr>
         </thead>
         <tbody th:each="purchase : ${order.getPurchases()}">
@@ -70,28 +61,45 @@
       </table>
     </td>
     <td>
-      <form th:action="@{/admin/changeOrder/{id} (id=${order.getId()})}" th:object="${status}" th:method="post">
-        <input style="height:20px;width:100px" type="text"  th:field="*{orderStatus}"></input>
+      <form th:action="@{/admin/changeOrderStatus/{id} (id=${order.getId()})}" th:object="${status}" th:method="post">
+        <select th:field="*{orderStatus}">
+          <option th:each="info : ${T(com.zorkoalex.shop.database.OrderStatus).values()}" th:value="${info}" th:text="${info}" th:selected="${info == 'PERFORMED'}"></option>
+        </select>
         <button type="submit">update</button>
       </form>
     </td>
-    <td><form th:action="@{/admin/deleteOrder/{id} (id=${order.getId()})}" th:method="post">
+    <td>
+      <form th:action="@{/admin/deleteOrder/{id} (id=${order.getId()})}" th:method="post">
       <button type="submit">delete</button>
-    </form></td>
+    </form>
+    </td>
+    <td>
+      <form th:action="@{/admin/addPurchaseInList/{id} (id=${order.getId()})}" th:object="${purchase}" th:method="post">
+        <input style="width:50px" type="text"  th:field="*{cakeId}">
+        <input style="width:50px" type="text"  th:field="*{count}">
+        <button type="submit">add</button>
+      </form>
+    </td>
+    <td>
+      <form th:action="@{/admin/deletePurchaseInList/{id} (id=${order.getId()})}" th:object="${purchase}" th:method="post">
+        <input style="width:50px" type="text"  th:field="*{cakeId}">
+        <button type="submit">delete</button>
+      </form>
+    </td>
   </tr>
   </tbody>
 </table>
-</div>
 
-<div class="paymentBlock">
-  <div style="text-align: center; font-size: large">PAYMENTS</div>
+
+  <div style="text-align: center; font-size: xxx-large">PAYMENTS</div>
     <table>
       <thead>
       <tr>
         <th>Order ID</th>
         <th>PaymentStatus</th>
         <th>Amount</th>
-        <th>Data payment</th>
+
+        <th></th>
       </tr>
       </thead>
       <tbody th:each="order : ${orders}">
@@ -99,29 +107,123 @@
         <td th:text="${order.getId()}"></td>
         <td th:text="${order.getPayment().getStatus()}"></td>
         <td th:text="${order.getPayment().getAmount()}"></td>
-        <td th:text="${order.getPayment().getPaymentDate()}"></td>
+        <td>
+        <form th:action="@{/admin/changePaymentStatus/{id} (id=${order.getPayment().getId()})}" th:object="${payment}" th:method="post">
+          <select th:field="*{status}">
+            <option th:each="info : ${T(com.zorkoalex.shop.database.PaymentStatus).values()}" th:value="${info}" th:text="${info}" th:selected="${info == 'PAID'}"></option>
+          </select>
+          <button type="submit">update</button>
+        </form>
+        </td>
       </tr>
       </tbody>
     </table>
-</div>
 
-<div class="userBlock">
-  <div style="text-align: center; font-size: large">USERS</div>
+  <br/>
+  <br/>
+
+  <div style="text-align: center; font-size: xxx-large">USERS</div>
   <table>
     <thead>
     <tr>
-      <th>Number</th>
-      <th>Name</th>
+      <th>number</th>
+      <th>name</th>
+      <th></th>
     </tr>
     </thead>
-    <tbody th:each="order : ${orders}">
+
+    <tbody th:each="user : ${users}">
     <tr>
-      <td th:text="${order.getUser().getNumber()}"></td>
-      <td th:text="${order.getUser().getName()}"></td>
+      <td th:text="${user.getNumber()}"></td>
+      <td th:text="${user.getName()}"></td>
+      <td>
+        <form th:action="@{/admin/deleteUser/{number} (number=${user.getNumber()})}" th:method="post">
+          <button type="submit">delete</button>
+        </form>
+      </td>
     </tr>
     </tbody>
   </table>
-</div>
 
+  <br/>
+  <br/>
+
+  <div>
+    <form th:action="@{/admin/addOrder}" th:object="${neworder}" th:method="post">
+      <table>
+        <thead>
+        <tr>
+          <th>user</th>
+          <th>payment</th>
+          <th>delivery</th>
+          <th></th>
+        </tr>
+        </thead>
+        <tr>
+          <td>
+            <table>
+              <thead>
+              <tr>
+                <th>name</th>
+                <th>number</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                <td> <input type="text" th:field="*{user.name}"></td>
+                <td> <input type="text" th:field="*{user.number}"></td>
+              </tr>
+              </tbody>
+            </table>
+          </td>
+          <td>
+            <table>
+              <thead>
+              <tr>
+                <th>status</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                <td>
+                  <select th:field="*{payment.status}">
+                    <option th:each="info : ${T(com.zorkoalex.shop.database.PaymentStatus).values()}" th:value="${info}" th:text="${info}" th:selected="${info == 'SCHEDULED'}"></option>
+                  </select>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </td>
+          <td>
+            <table>
+              <thead>
+              <tr>
+                <th>delivery_need</th>
+                <th>deliveryAddress</th>
+                <th>deliveryTime</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                <td>
+                  <select th:field="*{delivery}">
+                    <option th:each="info : ${T(com.zorkoalex.shop.database.Delivery).values()}" th:value="${info}" th:text="${info}" th:selected="${info == 'NEED'}"></option>
+                  </select>
+                </td>
+                <td><input type="text" th:field="*{deliveryAddress}"></td>
+                <td><input type="date" th:field="*{deliveryTime}"></td>
+              </tr>
+              </tbody>
+            </table>
+          </td>
+          <td>
+            <button type="submit">add</button>
+          </td>
+        </tr>
+      </table>
+    </form>
+  </div>
+
+</div>
 </body>
 </html>

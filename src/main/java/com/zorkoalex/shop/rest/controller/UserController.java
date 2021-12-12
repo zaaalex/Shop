@@ -1,13 +1,15 @@
 package com.zorkoalex.shop.rest.controller;
 
-import com.zorkoalex.shop.dto.*;
 import com.zorkoalex.shop.dto.cake.Cake;
 import com.zorkoalex.shop.dto.cake.Cakes;
 import com.zorkoalex.shop.dto.order.Order;
+import com.zorkoalex.shop.dto.order.Orders;
+import com.zorkoalex.shop.dto.user.User;
+import com.zorkoalex.shop.dto.user.Users;
 import com.zorkoalex.shop.exception.UserExistException;
-import com.zorkoalex.shop.goods.CakesService;
-import com.zorkoalex.shop.orders.order.OrderService;
-import com.zorkoalex.shop.users.UserService;
+import com.zorkoalex.shop.database.cakes.CakesService;
+import com.zorkoalex.shop.database.orders.OrderService;
+import com.zorkoalex.shop.database.users.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -31,11 +33,18 @@ public class UserController {
     }
 
     @GetMapping(value="cakes", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Cakes cakes(
-            //Principal principal
-                                    ){
-        //System.out.println(principal.getName());
+    public Cakes cakes(){
         return cakesService.getCakes();
+    }
+
+    @GetMapping(value="users", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Users users(){
+        return userService.getUsers();
+    }
+
+    @GetMapping(value="order/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Orders orders(@PathVariable String number){
+        return orderService.getOrder(number);
     }
 
     @GetMapping(value="cake/{id}", produces = MediaType.APPLICATION_JSON_VALUE)

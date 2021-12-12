@@ -1,14 +1,13 @@
 package com.zorkoalex.shop.dto.order;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.zorkoalex.shop.orders.PaymentStatus;
+import com.zorkoalex.shop.database.PaymentStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
-import java.time.LocalDateTime;
 
 @Data
 @Schema (description = "info about payment")
@@ -23,11 +22,6 @@ public class Payment {
     @Schema(description = "amount of payment", required = true)
     @JsonProperty("amount")
     private Double amount;
-
-    @Null
-    @Schema(description = "paymentDate", required = true)
-    @JsonProperty("paymentDate")
-    private LocalDateTime paymentDate;
 
     @NotNull
     @Schema(description = "status", required = true)

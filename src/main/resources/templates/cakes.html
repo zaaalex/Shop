@@ -28,26 +28,26 @@
 <div style="text-align: center; font-size: xxx-large">CAKES</div>
 <div style="text-align: right"><a href="home">home</a></div>
 <div class="addBlock">
-    <form th:name="add" th:action="@{/admin/addCake}" th:object="${cake}" th:method="post">
+    <form th:action="@{/admin/addCake}" th:object="${cake}" th:method="post">
         <fieldset>
             <p>Name:</p>
-            <p> <input type="text" th:field="*{name}"></input></p>
+            <p> <input type="text" th:field="*{name}"></p>
         </fieldset>
         <fieldset>
             <p>Calories:</p>
-            <p> <input type="number" step="50" th:field="*{calories}"></input></p>
+            <p> <input type="number" step="50" th:field="*{calories}"></p>
         </fieldset>
         <fieldset>
             <p>Prise:</p>
-            <p> <input type="number" step="50" th:field="*{prise}"></input></p>
+            <p> <input type="number" step="50" th:field="*{prise}"></p>
         </fieldset>
         <fieldset>
             <p>Weight:</p>
-            <p> <input type="number" step="50" th:field="*{weight}"></input></p>
+            <p> <input type="number" step="50" th:field="*{weight}"></p>
         </fieldset>
         <fieldset>
             <p>Image:</p>
-            <p> <input type="text" th:field="*{image}"></input></p>
+            <p><input type="text" th:field="*{image}"></p>
         </fieldset>
 
         <button style="height:20px;width:205px" type="submit">add</button>
@@ -91,7 +91,7 @@
             </tr>
             </thead>
             <td>
-                <input style="height:15px;width:137px" type="number" th:field="*{id}"></input>
+                <input style="height:15px;width:137px" type="number" th:field="*{id}">
             </td>
             <td>
                 <button type="submit">delete</button>

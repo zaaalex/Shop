@@ -1,16 +1,15 @@
 package com.zorkoalex.shop.dto.order;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.zorkoalex.shop.dto.User;
-import com.zorkoalex.shop.orders.Delivery;
-import com.zorkoalex.shop.orders.OrderStatus;
+import com.zorkoalex.shop.dto.user.User;
+import com.zorkoalex.shop.database.Delivery;
+import com.zorkoalex.shop.database.OrderStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -45,14 +44,14 @@ public class Order {
     @NotNull
     @Schema(description = "Delivery time", required = true)
     @JsonProperty("deliveryTime")
-    private LocalDateTime deliveryTime;
+    private String deliveryTime;
 
-    @NotNull
+    @Null
     @Schema(description = "Order status", required = true)
     @JsonProperty("orderStatus")
     private OrderStatus orderStatus;
 
-    @NotNull
+    @Null
     @Schema(description = "purchases", required = true)
     @JsonProperty("purchases")
     private List<Purchase> purchases;
