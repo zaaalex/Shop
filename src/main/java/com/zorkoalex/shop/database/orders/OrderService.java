@@ -8,11 +8,11 @@ import com.zorkoalex.shop.database.OrderStatus;
 
 public interface OrderService {
    void addOrder(Order order);
-   void changeOrderStatus (Long id, OrderStatus orderStatus);
-   void addPurchaseInList (Long id, Purchase purhase);
-   void deletePurchaseInList (Long id, Purchase purhase);
+   void changeOrderStatus (Long id, OrderStatus orderStatus) throws OrderNotFoundException;
+   void addPurchaseInList (Long id, Purchase purhase) throws OrderNotFoundException;
+   void deletePurchaseInList (Long id, Purchase purhase) throws OrderNotFoundException;
    void deleteOrder (Long id) throws OrderNotFoundException;
    Orders getOrders();
-   Orders getOrder (String number);
+   Orders getOrder (String number) throws OrderNotFoundException;
 }
 

@@ -6,6 +6,9 @@ import com.zorkoalex.shop.dto.order.Order;
 import com.zorkoalex.shop.dto.order.Payment;
 import com.zorkoalex.shop.dto.order.Purchase;
 import com.zorkoalex.shop.dto.user.User;
+import com.zorkoalex.shop.exception.CakeNotFoundException;
+import com.zorkoalex.shop.exception.OrderNotFoundException;
+import com.zorkoalex.shop.exception.PaymentNotFoundException;
 import com.zorkoalex.shop.exception.UserExistException;
 import com.zorkoalex.shop.database.cakes.CakesService;
 import com.zorkoalex.shop.database.orders.OrderService;
@@ -48,6 +51,19 @@ public class AdminController {
         return "cakes";
     }
 
+    @GetMapping(value="orders")
+    public String orders(Model model){
+        model.addAttribute("orders", orderService.getOrders().getOrderList());
+        model.addAttribute("users",  userService.getUsers().getUserList());
+        model.addAttribute("order", new Order());
+        model.addAttribute("neworder", new Order());
+        model.addAttribute("status", new Order());
+        model.addAttribute("user", new User());
+        model.addAttribute("purchase", new Purchase());
+        model.addAttribute("payment", new Payment());
+        return "orders";
+    }
+
     @PostMapping(path = "addOrder")
     public String createOrder(Order newOrder){
         try {
@@ -67,7 +83,11 @@ public class AdminController {
 
     @PostMapping(value="deleteCake")
     public String deleteCake(Cake cake){
-        cakesService.deleteCake(cake.getId());
+        try {
+            cakesService.deleteCake(cake.getId());
+        }
+        catch (CakeNotFoundException ignored) {
+        }
         return "redirect:/admin/cakes";
     }
 
@@ -83,44 +103,51 @@ public class AdminController {
 
     @PostMapping(value = "changeOrderStatus/{id}")
     public String changeOrderStatus(@PathVariable Long id, Order order){
-        orderService.changeOrderStatus(id, order.getOrderStatus());
+        try {
+            orderService.changeOrderStatus(id, order.getOrderStatus());
+        }
+        catch (OrderNotFoundException ignored) {
+        }
         return "redirect:/admin/orders";
     }
 
     @PostMapping(value = "changePaymentStatus/{id}")
     public String changePaymentStatus(@PathVariable Long id, Payment payment){
-       paymentService.changePaymentStatus(id, payment.getStatus());
+        try {
+            paymentService.changePaymentStatus(id, payment.getStatus());
+        }
+        catch (PaymentNotFoundException ignored){
+        }
         return "redirect:/admin/orders";
     }
 
     @PostMapping(value = "addPurchaseInList/{id}")
     public String addPurchaseInList(@PathVariable Long id, Purchase purchase){
-        orderService.addPurchaseInList(id, purchase);
+        try {
+            orderService.addPurchaseInList(id, purchase);
+        }
+        catch(OrderNotFoundException ignored){
+        }
         return "redirect:/admin/orders";
     }
 
     @PostMapping(value = "deletePurchaseInList/{id}")
     public String deletePurchaseInList(@PathVariable Long id, Purchase purchase){
-        orderService.deletePurchaseInList(id, purchase);
+        try {
+            orderService.deletePurchaseInList(id, purchase);
+        }
+        catch (OrderNotFoundException ignored){
+        }
         return "redirect:/admin/orders";
     }
 
     @PostMapping(value = "deleteOrder/{id}")
     public String deleteOrder(@PathVariable Long id){
-        orderService.deleteOrder(id);
+        try {
+            orderService.deleteOrder(id);
+        }
+        catch(OrderNotFoundException ignored){
+        }
         return "redirect:/admin/orders";
-    }
-
-    @GetMapping(value="orders")
-    public String orders(Model model, Principal principal){
-        model.addAttribute("orders", orderService.getOrders().getOrderList());
-        model.addAttribute("users",  userService.getUsers().getUserList());
-        model.addAttribute("order", new Order());
-        model.addAttribute("neworder", new Order());
-        model.addAttribute("status", new Order());
-        model.addAttribute("user", new User());
-        model.addAttribute("purchase", new Purchase());
-        model.addAttribute("payment", new Payment());
-        return "orders";
     }
 }

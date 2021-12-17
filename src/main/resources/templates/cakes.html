@@ -39,7 +39,7 @@
         </fieldset>
         <fieldset>
             <p>Prise:</p>
-            <p> <input type="number" step="50" th:field="*{prise}"></p>
+            <p> <input type="number" step="50" th:field="*{price}"></p>
         </fieldset>
         <fieldset>
             <p>Weight:</p>
@@ -62,7 +62,7 @@
             <th>ID</th>
             <th>Name</th>
             <th>Calories</th>
-            <th>Prise</th>
+            <th>Price</th>
             <th>Weight</th>
             <th>Image</th>
         </tr>
@@ -72,7 +72,7 @@
             <td th:text="${cake.getId()}"></td>
             <td th:text="${cake.getName()}"></td>
             <td th:text="${cake.getCalories()}"></td>
-            <td th:text="${cake.getPrise()}"></td>
+            <td th:text="${cake.getPrice()}"></td>
             <td th:text="${cake.getWeight()}"></td>
             <td th:text="${cake.getImage()}"></td>
         </tr>

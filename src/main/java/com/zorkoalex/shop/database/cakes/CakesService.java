@@ -7,7 +7,7 @@ import com.zorkoalex.shop.exception.CakeNotFoundException;
 //прослойка с бизнес-логикой
 public interface CakesService {
     Cakes getCakes();
-    Cake getCake(Long id);
+    Cake getCake(Long id) throws CakeNotFoundException;
     void addCake(Cake cake);
     void deleteCake (Long id) throws CakeNotFoundException;
 }

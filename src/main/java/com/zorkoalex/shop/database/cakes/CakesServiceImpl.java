@@ -26,7 +26,7 @@ public class CakesServiceImpl implements CakesService {
             cake.setId(c.getId());
             cake.setName(c.getName());
             cake.setImage(c.getImage());
-            cake.setPrise(c.getPrise());
+            cake.setPrice(c.getPrice());
             cake.setWeight(c.getWeight());
             cake.setCalories(c.getCalories());
             return cake;
@@ -37,7 +37,7 @@ public class CakesServiceImpl implements CakesService {
     }
 
     @Override
-    public Cake getCake(Long id){
+    public Cake getCake(Long id) throws CakeNotFoundException{
         CakeEntity cakeEntity = cakeRepository.findAll().stream()
                 .filter(c -> c.getId().equals(id))
                 .findFirst()
@@ -47,7 +47,7 @@ public class CakesServiceImpl implements CakesService {
         cake.setId(cakeEntity.getId());
         cake.setName(cakeEntity.getName());
         cake.setImage(cakeEntity.getImage());
-        cake.setPrise(cakeEntity.getPrise());
+        cake.setPrice(cakeEntity.getPrice());
         cake.setWeight(cakeEntity.getWeight());
         cake.setCalories(cakeEntity.getCalories());
         return cake;
@@ -59,7 +59,7 @@ public class CakesServiceImpl implements CakesService {
         CakeEntity cakeEntity = new CakeEntity();
         cakeEntity.setName(cake.getName());
         cakeEntity.setImage(cake.getImage());
-        cakeEntity.setPrise(cake.getPrise());
+        cakeEntity.setPrice(cake.getPrice());
         cakeEntity.setWeight(cake.getWeight());
         cakeEntity.setCalories(cake.getCalories());
         cakeRepository.saveAndFlush(cakeEntity);

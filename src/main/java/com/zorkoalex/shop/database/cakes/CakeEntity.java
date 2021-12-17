@@ -43,7 +43,7 @@ public class CakeEntity {
     private String image;
 
     @Setter(AccessLevel.PROTECTED)
-    private Integer prise;
+    private Integer price;
 
     @Setter(AccessLevel.PROTECTED)
     private BigDecimal weight;

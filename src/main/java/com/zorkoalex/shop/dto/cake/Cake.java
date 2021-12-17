@@ -35,8 +35,8 @@ public class Cake {
 
     @NotNull
     @Schema(description = "Prise of cake", required = true)
-    @JsonProperty("prise")
-    private Integer prise;
+    @JsonProperty("price")
+    private Integer price;
 
     @NotNull
     @Schema(description = "Cake weight", required = true)

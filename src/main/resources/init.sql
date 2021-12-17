@@ -4,7 +4,7 @@ CREATE TABLE cake
     name     VARCHAR(255),
     calories DECIMAL,
     image    VARCHAR(255),
-    prise    DECIMAL,
+    price    INTEGER,
     weight   DECIMAL,
     CONSTRAINT pk_cake PRIMARY KEY (id)
 );
