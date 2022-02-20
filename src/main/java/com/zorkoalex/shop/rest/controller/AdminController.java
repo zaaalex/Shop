@@ -6,6 +6,7 @@ import com.zorkoalex.shop.dto.order.Order;
 import com.zorkoalex.shop.dto.order.Payment;
 import com.zorkoalex.shop.dto.order.Purchase;
 import com.zorkoalex.shop.dto.user.User;
+import com.zorkoalex.shop.dto.user.Users;
 import com.zorkoalex.shop.exception.CakeNotFoundException;
 import com.zorkoalex.shop.exception.OrderNotFoundException;
 import com.zorkoalex.shop.exception.PaymentNotFoundException;
@@ -15,6 +16,7 @@ import com.zorkoalex.shop.database.orders.OrderService;
 import com.zorkoalex.shop.database.payment.PaymentService;
 import com.zorkoalex.shop.database.users.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -149,5 +151,10 @@ public class AdminController {
         catch(OrderNotFoundException ignored){
         }
         return "redirect:/admin/orders";
+    }
+
+    @GetMapping(value="users", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Users users(){
+        return userService.getUsers();
     }
 }
