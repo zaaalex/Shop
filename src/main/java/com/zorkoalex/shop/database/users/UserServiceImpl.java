@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserService{
     }
 
     boolean FinishAllOrders(String number){
-        List <OrderEntity> orderList = orderRepository.findOrderEntitiesByUser_Number(number);
+        List <OrderEntity> orderList = orderRepository.findOrderEntitiesByUser_Numberrr(number);
         for (OrderEntity el: orderList){
             if (!el.getOrderStatus().equals(OrderStatus.FINISHED)) return false;
         }

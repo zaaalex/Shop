@@ -95,7 +95,7 @@ public class OrderServiceImpl implements OrderService{
 
             Double amount=0.0;
             for (Purchase el: order.getPurchases()){
-                amount+=el.getCount()*cakeRepository.findCakeEntityById(el.getCakeId()).getPrice();
+                amount+=el.getCount()*cakeRepository.findCakeee(el.getCakeId()).getPrice();
             }
 
             PaymentEntity paymentEntity=c.getPayment();
@@ -117,7 +117,7 @@ public class OrderServiceImpl implements OrderService{
         if (!orderRepository.existsByUser_Number(number))
             throw new OrderNotFoundException("Order with USER NUMBER "+number+ " doesn't exist");
         else {
-            List<OrderEntity> orderEntityList = orderRepository.findOrderEntitiesByUser_Number(number);
+            List<OrderEntity> orderEntityList = orderRepository.findOrderEntitiesByUser_Numberrr(number);
             List<Order> orderList = orderEntityList.stream().map(c -> {
                 Order order = new Order();
                 order.setId(c.getId());
@@ -143,7 +143,7 @@ public class OrderServiceImpl implements OrderService{
 
                 Double amount = 0.0;
                 for (Purchase el : order.getPurchases()) {
-                    amount += el.getCount() * cakeRepository.findCakeEntityById(el.getCakeId()).getPrice();
+                    amount += el.getCount() * cakeRepository.findCakeee(el.getCakeId()).getPrice();
                 }
 
                 PaymentEntity paymentEntity = c.getPayment();
@@ -180,7 +180,7 @@ public class OrderServiceImpl implements OrderService{
         else  {
             OrderEntity orderEntity = orderRepository.getById(id);
             orderEntity.getPayment().setAmount(orderEntity.getPayment().getAmount()+
-                    cakeRepository.findCakeEntityById(newpurchase.getCakeId()).getPrice()*newpurchase.getCount());
+                    cakeRepository.findCakeee(newpurchase.getCakeId()).getPrice()*newpurchase.getCount());
             boolean success = false;
             for (PurchaseEntity el: orderEntity.getPurchases()){
                 if (el.getCake().getId().equals(newpurchase.getCakeId())) {
